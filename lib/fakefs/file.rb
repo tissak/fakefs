@@ -153,7 +153,7 @@ module FakeFS
       file = new(path)
       if file.exists?
         found = FileSystem.find(path)
-        found.atime = Time.now if found.is_a FakeFile
+        found.atime = Time.now if found.is_a? FakeFile
         file.read
       else
         raise Errno::ENOENT
