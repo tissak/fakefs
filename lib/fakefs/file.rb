@@ -152,7 +152,8 @@ module FakeFS
     def self.read(path, *args)
       file = new(path)
       if file.exists?
-        FileSystem.find(path).atime = Time.now
+        found = FileSystem.find(path)
+        found.atime = Time.now if found.is_a FakeFile
         file.read
       else
         raise Errno::ENOENT
