@@ -25,11 +25,16 @@ module FakeFS
 
       entries = find_recurser(fs, parts).flatten
 
-      case entries.length
+      found = case entries.length
       when 0 then nil
       when 1 then entries.first
       else entries
       end
+
+      if FakeFS.as_proxy? && found.nil? && RealFile.file?(path)
+        found = RealFile.new(path)
+      end
+      found
     end
 
     def add(path, object=FakeDir.new)

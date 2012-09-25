@@ -5,6 +5,18 @@ RealDir             = Dir
 RealPathname        = Pathname
 
 module FakeFS
+
+  # determine if we are acting as a proxy
+  def self.as_proxy?
+    @use_as_proxy || false
+  end
+
+  # Set into proxy mode. Virtual file calls have priority but
+  # can fallback to actual filesystem
+  def self.make_proxy
+    @use_as_proxy = true
+  end
+
   def self.activate!
     Object.class_eval do
       remove_const(:Dir)
